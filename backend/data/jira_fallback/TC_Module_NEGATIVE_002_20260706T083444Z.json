@@ -1,0 +1,22 @@
+{
+  "tc_id": "TC_Module_NEGATIVE_002",
+  "title": "Submit leave request spanning a public holiday",
+  "tc_type": "negative",
+  "priority": "Medium",
+  "template": "Detailed Test Case",
+  "pre_conditions": "There is a public holiday on '05/05/2023'. Employee has a manager assigned in the organizational chart.",
+  "steps": [
+    "Step 1: Navigate to the 'Leave Requests' section of the self-service portal.",
+    "Step 2: Select 'Annual Leave' from the leave type dropdown.",
+    "Step 3: Enter start date as '04/05/2023'.",
+    "Step 4: Enter end date as '06/05/2023'.",
+    "Step 5: Add an optional comment stating 'Annual leave for personal reasons'."
+  ],
+  "expected_result": "The leave request is submitted successfully, and the system excludes the public holiday from the calculation of working days.",
+  "notes": "N/A",
+  "requirement_id": "b4331294-54cf-4ae7-b3de-087d6c109710",
+  "requirement_title": "Employee Self-Service Leave Request Approval",
+  "requirement_source_ref": null,
+  "jira_push_error": "JIRA credentials not configured — set JIRA_BASE_URL, JIRA_EMAIL, JIRA_API_TOKEN in backend/.env and restart the backend.",
+  "attempted_at": "20260706T083444Z"
+}

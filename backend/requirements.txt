@@ -1,0 +1,48 @@
+fastapi==0.115.6
+uvicorn[standard]==0.32.1
+# pydantic 2.10.x has prebuilt wheels for Python 3.10-3.13 — avoids the
+# Rust/maturin source-build failure that occurs with older pydantic-core
+# pins (2.7.x) on Python 3.13, where no prebuilt wheel exists.
+pydantic==2.10.4
+pydantic-settings==2.7.0
+python-multipart==0.0.9
+# sqlalchemy 2.0.36+ added full Python 3.13 support, fixing a crash where
+# SQLAlchemy's internal "symbol" metaclass conflicted with Python 3.13's new
+# __firstlineno__ class attribute (TypeError: Can't replace canonical symbol
+# for '__firstlineno__'...). 2.0.30 and earlier will crash on import under 3.13.
+sqlalchemy==2.0.36
+# greenlet powers SQLAlchemy's async engine (required at runtime for any
+# sqlalchemy.ext.asyncio usage, e.g. engine.begin()/init_db()). SQLAlchemy's
+# own dependency metadata EXCLUDES greenlet from automatic installation on
+# Python 3.13 specifically (its marker is "python_version < 3.13"), so on
+# 3.13 it must be requested explicitly via this pin or the [asyncio] extra —
+# otherwise the app installs "successfully" but crashes on startup with
+# "ValueError: the greenlet library is required to use this function."
+# Pinned >=3.1.1 because that's the first greenlet release with Python 3.13
+# wheels; older 3.0.x releases fail to build from source on 3.13.
+greenlet>=3.1.1
+# SQLite async driver (for POC - no PostgreSQL needed)
+aiosqlite==0.20.0
+# PostgreSQL async driver (optional - uncomment if using PostgreSQL)
+# asyncpg==0.29.0
+# psycopg2-binary==2.9.9
+# OpenAI SDK used in Ollama-compatible mode (no API key needed)
+openai==1.30.1
+# Vector store: pure-Python (see app/services/vector_store.py) — chromadb
+# was removed because its hnswlib dependency has NO prebuilt wheel for
+# Python 3.13 on any platform (confirmed: chroma-core/chroma#4382, still
+# open), forcing a from-source build that needs a C++14 compiler (MSVC
+# Build Tools on Windows) most machines — especially locked-down corporate
+# AVDs — don't have installed. numpy is kept for the cosine-similarity math
+# our own vector_store.py uses; numpy 2.x has prebuilt cp313 wheels on all
+# platforms, so this needs no compiler at all.
+numpy>=2.0,<3.0
+httpx==0.27.0
+# pandas 2.2.2 has no Python 3.13 wheels (first 3.13-compatible release is 2.2.3) —
+# pinning 2.2.2 would force a slow/fragile source build under Python 3.13.
+pandas==2.2.3
+openpyxl==3.1.2
+python-docx==1.1.2
+pypdf2==3.0.1
+python-dotenv==1.0.1
+aiofiles==23.2.1
